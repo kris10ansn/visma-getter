@@ -53,10 +53,14 @@ const style: React.CSSProperties = {
 
 const Day: React.FC<Props> = ({ day, date, index }) => {
     const cells = group(day);
+    const now = dayjs();
 
     return (
         <div className="Day" style={style}>
-            {index + 1 === date.day() && <NowLine />}
+            {index + 1 === date.day() &&
+                date.date() === now.date() &&
+                date.month() === now.month() &&
+                date.year() === now.year() && <NowLine />}
             {cells.map((cellItems, index) => (
                 <TimeTableCell items={cellItems} key={index} />
             ))}
