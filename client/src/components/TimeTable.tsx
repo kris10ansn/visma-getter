@@ -4,7 +4,7 @@ import { ITimeTableInfo } from "../util/TimeTableInfo";
 import sort from "../util/sort";
 import Day from "./Day";
 import "./TimeTable.scss";
-import { SERVER } from "src/util/constants";
+import { SERVER } from "../config.json";
 
 const arr = (n: number) => Array(n).fill(null);
 
