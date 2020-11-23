@@ -1,1 +1,3 @@
-export const SERVER = "http://localhost:5000";
+require("dotenv").config();
+
+export const SERVER = process.env["SERVER"];
