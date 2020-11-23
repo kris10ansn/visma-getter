@@ -1,0 +1,30 @@
+.TimeTableItem {
+    width: 100%;
+    position: absolute;
+    padding: 10px;
+    border-style: solid;
+    border-width: 1px 1px 1px 6px;
+    font-size: 11px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    p {
+        font-size: 1.3em;
+        margin: 0 0 3px;
+    }
+
+    small {
+        display: block;
+        color: #677883;
+        line-height: 1.2em;
+        font-size: 1.1em;
+    }
+    .info {
+        margin: 0.3em 0;
+        small {
+            font-size: 1em;
+            display: initial;
+            color: #39444b;
+        }
+    }
+}

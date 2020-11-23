@@ -1,0 +1,11 @@
+.TimeTableCell {
+    display: flex;
+    width: 100%;
+    position: absolute;
+
+    .group {
+        flex-grow: 1;
+        flex-basis: 0;
+        position: relative;
+    }
+}
