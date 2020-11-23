@@ -5,16 +5,15 @@ const error = (err: Error) => console.error(err);
 let browser: puppeteer.Browser;
 
 export default async ({ debug } = { debug: false }) => {
+    const env = process.env as { [key: string]: string };
+    console.log("getSession");
+
     if (!browser) {
         browser = await puppeteer.launch({
-            executablePath: "/usr/bin/chromium",
+            executablePath: env["BROWSER"],
             headless: !debug,
         });
     }
-
-    console.log("getSession");
-
-    const env = process.env as { [key: string]: string };
 
     const pages = await browser.pages();
     await Promise.all(pages.map((page) => page.close()));

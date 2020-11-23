@@ -9,11 +9,13 @@ import nullify from "./util/nullify";
 import json from "./util/json";
 
 require("dotenv").config();
+const env = process.env as { [key: string]: string };
+
 dayjs.extend(weekOfYear);
 
+const PORT = env["PORT"];
 const url =
     "https://sandnes-vgs.inschool.visma.no/control/timetablev2/learner/7672361/fetch/ALL/0/current";
-const PORT = 5000;
 const app = express();
 
 app.use(cors());
