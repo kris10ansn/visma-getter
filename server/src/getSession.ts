@@ -12,6 +12,7 @@ export default async ({ debug } = { debug: false }) => {
         browser = await puppeteer.launch({
             executablePath: env["BROWSER"],
             headless: !debug,
+            args: ["--no-sandbox"],
         });
     }
 
