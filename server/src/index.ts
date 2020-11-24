@@ -7,6 +7,7 @@ import cors from "cors";
 import { Cookie } from "puppeteer-core";
 import nullify from "./util/nullify";
 import json from "./util/json";
+import path from "path";
 
 require("dotenv").config();
 const env = process.env as { [key: string]: string };
@@ -20,6 +21,8 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+app.use(express.static(path.join(__dirname, "..", "..", "client", "build")));
 
 let jsession: Cookie | undefined;
 
