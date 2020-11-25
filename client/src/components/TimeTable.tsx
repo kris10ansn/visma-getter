@@ -14,7 +14,9 @@ interface Props {
 
 const get = async (date: dayjs.Dayjs) => {
     const doFetch = async () => {
-        const response = await fetch(`${SERVER}/timetable?week=${date.week()}`);
+        const response = await fetch(
+            `${SERVER}/timetable?week=${date.week()}&year=${date.year()}`
+        );
         return await response.json();
     };
 
@@ -32,8 +34,9 @@ const get = async (date: dayjs.Dayjs) => {
 const TimeTable: React.FC<Props> = ({ style }) => {
     const url = new URL(window.location.href);
     const week = Number(url.searchParams.get("week")) || dayjs().week();
+    const year = Number(url.searchParams.get("year")) || dayjs().year();
 
-    const [date] = useState<dayjs.Dayjs>(dayjs().week(week));
+    const [date] = useState<dayjs.Dayjs>(dayjs().year(year).week(week));
     const [timetable, setTimetable] = useState<ITimeTableInfo>();
 
     useEffect(() => {
