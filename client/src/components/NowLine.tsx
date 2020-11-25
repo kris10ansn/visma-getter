@@ -12,9 +12,9 @@ const num = (date: dayjs.Dayjs) => {
 
 const NowLine: React.FC = () => {
     const now = useLiveDate(Unit.Second);
-    const time = num(now);
+    const time = Math.max(8, Math.min(15.25, num(now)));
 
-    return time >= 8 && time <= 15 ? (
+    return (
         <div
             style={{
                 width: "100%",
@@ -24,8 +24,6 @@ const NowLine: React.FC = () => {
                 top: `${((time - 8) / 8) * 1000}px`,
             }}
         ></div>
-    ) : (
-        <></>
     );
 };
 
