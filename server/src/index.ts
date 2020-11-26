@@ -44,7 +44,8 @@ app.get("/timetable", async (req, res) => {
     }
 
     const week = Number(req.query.week);
-    const date = dayjs().week(week);
+    const year = Number(req.query.year) || dayjs().year();
+    const date = dayjs().year(year).week(week);
 
     const get = async (i = 0, refreshCookie = false): Promise<any> => {
         if (refreshCookie) jsession = await getSession();
