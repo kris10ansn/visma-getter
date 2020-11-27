@@ -7,6 +7,7 @@
         "watch": "tsc --watch",
         "dev": "nodemon --watch dist dist/index.js",
         "start": "node dist/index.js",
+        "start:api": "node dist/index.js",
         "build": "tsc",
         "prestart": "yarn build; yarn --cwd=../client build"
     },
