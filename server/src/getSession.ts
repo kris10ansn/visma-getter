@@ -16,23 +16,23 @@ export default async ({ debug } = { debug: false }) => {
         });
     }
 
-    const pages = await browser.pages();
-    await Promise.all(pages.map((page) => page.close()));
-
-    const page = await browser.newPage();
+    const [page] = await browser.pages();
 
     await page.deleteCookie({
         name: "JSESSIONID",
         domain: "sandnes-vgs.inschool.visma.no",
     });
 
+    console.log("Loading website...");
     await page.goto("https://sandnes-vgs.inschool.visma.no/");
 
     await page.waitForSelector("#login-with-feide-button");
+    console.log("Clicking feide button");
     await page.click("#login-with-feide-button");
 
     await page.waitForSelector("#username");
     await page.waitForSelector("#password");
+    console.log("Logging in...");
     await page.type("#username", env["username"]).catch(error);
     await page.type("#password", env["password"]).catch(error);
     await page.click("#main > div.main > form > button");
