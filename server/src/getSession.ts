@@ -42,7 +42,9 @@ export default async ({ debug } = { debug: false }) => {
             waitUntil: "networkidle0",
             timeout: 10000,
         });
-    } catch (e) {}
+    } catch {
+        console.log("Wait for networkidle0 timed out, continuing...");
+    }
 
     const cookies = await page.cookies();
 
