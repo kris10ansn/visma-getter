@@ -4,8 +4,9 @@ const error = (err: Error) => console.error(err);
 
 let browser: puppeteer.Browser;
 
-export default async ({ debug } = { debug: false }) => {
+export default async () => {
     const env = process.env as { [key: string]: string };
+    const debug = Boolean(env["debug"]);
     console.log("getSession");
 
     if (!browser) {
