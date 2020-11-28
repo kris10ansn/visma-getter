@@ -32,8 +32,8 @@ getSession().then((session) => {
 });
 
 app.get("/logs", (_req, res) => {
-    res.sendFile(path.join(__dirname, "..", "output.log"))
-})
+    res.sendFile(path.join(__dirname, "..", "output.log"));
+});
 
 app.get("/timetable", async (req, res) => {
     if (!jsession) {
