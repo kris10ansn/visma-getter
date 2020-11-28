@@ -8,13 +8,11 @@ import { Cookie } from "puppeteer-core";
 import nullify from "./util/nullify";
 import json from "./util/json";
 import path from "path";
-
-require("dotenv").config();
-const env = process.env as { [key: string]: string };
+import getEnv from "./util/getEnv";
 
 dayjs.extend(weekOfYear);
 
-const PORT = env["PORT"];
+const PORT = getEnv("PORT");
 const url =
     "https://sandnes-vgs.inschool.visma.no/control/timetablev2/learner/7672361/fetch/ALL/0/current";
 const app = express();

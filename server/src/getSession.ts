@@ -1,16 +1,17 @@
 import puppeteer from "puppeteer-core";
+import getEnv from "./util/getEnv";
 
 const error = (err: Error) => console.error(err);
 
 let browser: puppeteer.Browser;
 
 export default async () => {
-    const debug = Boolean(env["debug"]);
+    const debug = Boolean(getEnv("debug"));
     console.log("getSession");
 
     if (!browser) {
         browser = await puppeteer.launch({
-            executablePath: env["BROWSER"],
+            executablePath: getEnv("BROWSER"),
             headless: !debug,
             args: ["--no-sandbox"],
         });
@@ -33,8 +34,8 @@ export default async () => {
     await page.waitForSelector("#username");
     await page.waitForSelector("#password");
     console.log("Logging in...");
-    await page.type("#username", env["username"]).catch(error);
-    await page.type("#password", env["password"]).catch(error);
+    await page.type("#username", getEnv("username")).catch(error);
+    await page.type("#password", getEnv("password")).catch(error);
     await page.click("#main > div.main > form > button");
 
     try {
