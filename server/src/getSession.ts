@@ -5,7 +5,6 @@ const error = (err: Error) => console.error(err);
 let browser: puppeteer.Browser;
 
 export default async () => {
-    const env = process.env as { [key: string]: string };
     const debug = Boolean(env["debug"]);
     console.log("getSession");
 
@@ -56,13 +55,17 @@ export default async () => {
     return jsession;
 };
 
+let closing = false;
 async function exitHandler(code: string) {
     if (browser) {
+        closing = true;
         console.log(`Exit: closing browser. [${code}]`);
-        await browser.close();
+        await browser.close().then(() => (closing = false));
     }
-    console.log("Browser closed. Running process.exit()...");
-    process.exit();
+    if (!closing) {
+        console.log("Browser closed. Running process.exit()...");
+        process.exit();
+    }
 }
 
 ["exit", "SIGINT", "SIGUSR1", "SIGUSR2"].forEach((code) => {
