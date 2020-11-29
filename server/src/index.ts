@@ -45,6 +45,7 @@ refreshCookie().then((session) => {
 
 const min = 1000 * 60;
 setInterval(async () => {
+    console.log("minute check");
     const dummyDate = "1/10/2020";
 
     for (let i = 0; i < 3; i++) {
@@ -53,6 +54,7 @@ setInterval(async () => {
             .catch(nullify);
 
         if (res !== null) {
+            console.log(`Still working: ${JSON.stringify(res).slice(0, 50)}`);
             return;
         }
     }

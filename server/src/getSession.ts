@@ -1,5 +1,6 @@
 import puppeteer from "puppeteer-core";
 import getEnv from "./util/getEnv";
+import { waitForNavigation, waitForSelector } from "./util/puppeteer-utils";
 
 const error = (err: Error) => console.error(err);
 
@@ -29,25 +30,22 @@ export default async () => {
     console.log("Loading website...");
     await page.goto("https://sandnes-vgs.inschool.visma.no/");
 
-    await page.waitForSelector("#login-with-feide-button");
-    console.log("Clicking feide button");
+    await waitForSelector(page, "#login-with-feide-button");
     await page.click("#login-with-feide-button");
 
-    await page.waitForSelector("#username");
-    await page.waitForSelector("#password");
+    await waitForSelector(page, "#username");
+    await waitForSelector(page, "#password");
     console.log("Logging in...");
     await page.type("#username", getEnv("username")).catch(error);
     await page.type("#password", getEnv("password")).catch(error);
     await page.click("#main > div.main > form > button");
 
-    try {
-        await page.waitForNavigation({
-            waitUntil: "networkidle0",
-            timeout: 10000,
-        });
-    } catch {
-        console.log("Wait for networkidle0 timed out, continuing...");
-    }
+    await waitForNavigation(page, {
+        waitUntil: "networkidle0",
+        timeout: 10000,
+    }).catch(() =>
+        console.log("Wait for networkidle0 timed out, continuing...")
+    );
 
     const cookies = await page.cookies();
 
