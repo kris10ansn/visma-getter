@@ -23,8 +23,9 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "..", "..", "client", "build")));
 
 let jsession: Cookie | undefined;
-let refreshing = false;
+const cookie = () => `JSESSIONID=${jsession?.value}`;
 
+let refreshing = false;
 const refreshCookie = async (): Promise<Cookie> => {
     refreshing = true;
 
@@ -43,18 +44,21 @@ refreshCookie().then((session) => {
     console.log("jsession loaded!");
 });
 
-const min = 1000 * 60;
-setInterval(async () => {
-    console.log("minute check");
-    const dummyDate = "1/10/2020";
+const cookieCheck = async () => {
+    console.group("cookie check");
 
     for (let i = 0; i < 3; i++) {
-        const res = await fetch(`${url}?forWeek=${dummyDate}`)
+        const res = await fetch(`${url}?forWeek=1/10/2020`, {
+            headers: {
+                cookie: cookie(),
+            },
+        })
             .then(json)
             .catch(nullify);
 
         if (res !== null) {
-            console.log(`Still working: ${JSON.stringify(res).slice(0, 50)}`);
+            console.log("valid jsession");
+            console.groupEnd();
             return;
         }
     }
@@ -63,7 +67,9 @@ setInterval(async () => {
         console.log("refresh");
         await refreshCookie();
     }
-}, min);
+    console.groupEnd();
+};
+setInterval(cookieCheck, 1000 * 60);
 
 app.get("/logs", (_req, res) => {
     res.sendFile(path.join(__dirname, "..", "output.log"));
@@ -83,11 +89,9 @@ app.get("/timetable", async (req, res) => {
     const get = async (i = 0, refresh = false): Promise<any> => {
         if (refresh) jsession = await refreshCookie();
 
-        const cookie = `JSESSIONID=${jsession?.value}`;
-
         const dateString = date.format("DD/MM/YYYY");
         const response = await fetch(`${url}?forWeek=${dateString}`, {
-            headers: { cookie },
+            headers: { cookie: cookie() },
         })
             .then(json)
             .catch(nullify);
