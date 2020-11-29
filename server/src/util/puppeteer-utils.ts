@@ -1,28 +1,32 @@
 import puppeteer from "puppeteer-core";
 
-export const waitForSelector = async (
+export const waitForSelector = (
     page: puppeteer.Page,
     selector: string,
     timeout = 10000
-) => {
-    try {
-        await page.waitForSelector(selector, { timeout });
-    } catch (e) {
-        throw e;
-    }
+) =>
+    new Promise(async (resolve, reject) => {
+        try {
+            await page.waitForSelector(selector, { timeout }).then(() => {
+                resolve(true);
+            });
+        } catch (e) {
+            console.log(e);
+            reject();
+        }
+    });
 
-    return true;
-};
-
-export const waitForNavigation = async (
+export const waitForNavigation = (
     page: puppeteer.Page,
     options: puppeteer.NavigationOptions
-) => {
-    try {
-        await page.waitForNavigation(options);
-    } catch (e) {
-        throw e;
-    }
-
-    return true;
-};
+) =>
+    new Promise(async (resolve, reject) => {
+        try {
+            await page.waitForNavigation(options).then(() => {
+                resolve(true);
+            });
+        } catch (e) {
+            console.error(e);
+            reject();
+        }
+    });
