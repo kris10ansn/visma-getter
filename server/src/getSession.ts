@@ -24,6 +24,8 @@ export default async () => {
         domain: "sandnes-vgs.inschool.visma.no",
     });
 
+    await page.goto("about:blank");
+
     console.log("Loading website...");
     await page.goto("https://sandnes-vgs.inschool.visma.no/");
 
