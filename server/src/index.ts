@@ -48,10 +48,9 @@ const cookieCheck = async () => {
     console.group("cookie check");
 
     for (let i = 0; i < 3; i++) {
+        const cookie = getCookie();
         const res = await fetch(`${url}?forWeek=1/10/2020`, {
-            headers: {
-                cookie: getCookie(),
-            },
+            headers: { cookie },
         })
             .then(json)
             .catch(nullify);
@@ -90,8 +89,9 @@ app.get("/timetable", async (req, res) => {
         if (refresh) jsession = await refreshCookie();
 
         const dateString = date.format("DD/MM/YYYY");
+        const cookie = getCookie();
         const response = await fetch(`${url}?forWeek=${dateString}`, {
-            headers: { cookie: getCookie() },
+            headers: { cookie },
         })
             .then(json)
             .catch(nullify);
