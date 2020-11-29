@@ -66,13 +66,8 @@ app.get("/timetable", async (req, res) => {
         res.send("jsession not ready");
         return;
     }
-    if (!Number(req.query.week)) {
-        res.status(404);
-        res.send("No week parameter provided!");
-        return;
-    }
 
-    const week = Number(req.query.week);
+    const week = Number(req.query.week) || dayjs().week();
     const year = Number(req.query.year) || dayjs().year();
     const date = dayjs().year(year).week(week);
 
