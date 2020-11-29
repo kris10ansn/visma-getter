@@ -3,12 +3,13 @@ import getEnv from "./util/getEnv";
 import { waitForNavigation, waitForSelector } from "./util/puppeteer-utils";
 
 const error = (err: Error) => console.error(err);
+const message = (msg: string) => () => console.log(msg);
 
 let browser: puppeteer.Browser;
 
-export default async () => {
+const getSession = async () => {
+    console.group("getSession");
     const debug = getEnv("debug") === "true";
-    console.log("getSession");
 
     if (!browser) {
         browser = await puppeteer.launch({
@@ -30,7 +31,7 @@ export default async () => {
     console.log("Loading website...");
     await page.goto("https://sandnes-vgs.inschool.visma.no/");
 
-    await waitForSelector(page, "#login-with-feide-button");
+    await waitForSelector(page, "#login-with-feide-button").catch(error);
     await page.click("#login-with-feide-button");
 
     await waitForSelector(page, "#username");
@@ -43,15 +44,14 @@ export default async () => {
     await waitForNavigation(page, {
         waitUntil: "networkidle0",
         timeout: 10000,
-    }).catch(() =>
-        console.log("Wait for networkidle0 timed out, continuing...")
-    );
+    }).catch(message("Wait for networkidle0 timed out, continuing..."));
 
     const cookies = await page.cookies();
 
     const jsession = cookies.find((cookie) => cookie.name === "JSESSIONID");
 
     console.log(`JSESSION: ${jsession?.value}`);
+    console.groupEnd();
 
     return jsession;
 };
@@ -72,3 +72,5 @@ async function exitHandler(code: string) {
 ["exit", "SIGINT", "SIGUSR1", "SIGUSR2"].forEach((code) => {
     process.on(code, exitHandler.bind(null, code));
 });
+
+export default getSession;
