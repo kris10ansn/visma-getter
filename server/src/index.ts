@@ -46,11 +46,18 @@ refreshCookie().then((session) => {
 const min = 1000 * 60;
 setInterval(async () => {
     const dummyDate = "1/10/2020";
-    const res = await fetch(`${url}?forWeek=${dummyDate}`)
-        .then(json)
-        .catch(nullify);
 
-    if (res === null && !refreshing) {
+    for (let i = 0; i < 3; i++) {
+        const res = await fetch(`${url}?forWeek=${dummyDate}`)
+            .then(json)
+            .catch(nullify);
+
+        if (res !== null) {
+            return;
+        }
+    }
+
+    if (!refreshing) {
         console.log("refresh");
         await refreshCookie();
     }
