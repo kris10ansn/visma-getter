@@ -6,7 +6,7 @@ const error = (err: Error) => console.error(err);
 let browser: puppeteer.Browser;
 
 export default async () => {
-    const debug = Boolean(getEnv("debug"));
+    const debug = getEnv("debug") === "true";
     console.log("getSession");
 
     if (!browser) {
