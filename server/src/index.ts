@@ -23,7 +23,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "..", "..", "client", "build")));
 
 let jsession: Cookie | undefined;
-const cookie = () => `JSESSIONID=${jsession?.value}`;
+const getCookie = () => `JSESSIONID=${jsession?.value}`;
 
 let refreshing = false;
 const refreshCookie = async (): Promise<Cookie> => {
@@ -50,7 +50,7 @@ const cookieCheck = async () => {
     for (let i = 0; i < 3; i++) {
         const res = await fetch(`${url}?forWeek=1/10/2020`, {
             headers: {
-                cookie: cookie(),
+                cookie: getCookie(),
             },
         })
             .then(json)
@@ -91,7 +91,7 @@ app.get("/timetable", async (req, res) => {
 
         const dateString = date.format("DD/MM/YYYY");
         const response = await fetch(`${url}?forWeek=${dateString}`, {
-            headers: { cookie: cookie() },
+            headers: { cookie: getCookie() },
         })
             .then(json)
             .catch(nullify);
