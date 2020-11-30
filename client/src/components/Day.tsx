@@ -48,7 +48,6 @@ const style: React.CSSProperties = {
     display: "flex",
     flexDirection: "column",
     position: "relative",
-    height: "100%",
 };
 
 const Day: React.FC<Props> = ({ day, date, index }) => {
