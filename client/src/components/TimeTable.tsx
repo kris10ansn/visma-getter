@@ -5,6 +5,7 @@ import sort from "../util/sort";
 import Day from "./Day";
 import "./TimeTable.scss";
 import { SERVER } from "../config.json";
+import { pos, style } from "src/util/pos";
 
 const arr = (n: number) => Array(n).fill(null);
 
@@ -54,7 +55,7 @@ const TimeTable: React.FC = () => {
                         key={i}
                         className="hour"
                         style={{
-                            top: `calc((var(--height) / 7.5) * ${i})`,
+                            top: style(pos(i)),
                         }}
                     >
                         {date.hour(i + 8).format("HH:00")}
