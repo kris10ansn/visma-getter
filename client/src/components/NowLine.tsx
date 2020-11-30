@@ -3,15 +3,11 @@ import React from "react";
 import { Unit, useLiveDate } from "src/util/useLiveDate";
 
 const num = (date: dayjs.Dayjs) => {
-    return (
-        date.hour() +
-        date.minute() / Math.pow(60, 1) +
-        date.second() / Math.pow(60, 2)
-    );
+    return date.hour() + date.minute() / Math.pow(60, 1);
 };
 
 const NowLine: React.FC = () => {
-    const now = useLiveDate(Unit.Second);
+    const now = useLiveDate(Unit.Minute);
     const time = Math.max(8, Math.min(15.25, num(now)));
 
     return (
