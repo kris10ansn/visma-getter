@@ -9,6 +9,7 @@ import nullify from "./util/nullify";
 import json from "./util/json";
 import path from "path";
 import getEnv from "./util/getEnv";
+import error from "./util/error";
 
 dayjs.extend(weekOfYear);
 
@@ -29,7 +30,7 @@ let refreshing = false;
 const refreshCookie = async (): Promise<Cookie> => {
     refreshing = true;
 
-    const session = await getSession();
+    const session = await getSession().catch(error);
 
     if (session) {
         refreshing = false;
@@ -64,7 +65,7 @@ const cookieCheck = async () => {
 
     if (!refreshing) {
         console.log("refresh");
-        await refreshCookie();
+        await refreshCookie().catch(error);
     }
     console.groupEnd();
 };
