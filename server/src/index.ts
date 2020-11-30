@@ -48,7 +48,7 @@ refreshCookie().then((session) => {
 const cookieCheck = async () => {
     console.group("cookie check");
 
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 6; i++) {
         const cookie = getCookie();
         const res = await fetch(`${url}?forWeek=1/10/2020`, {
             headers: { cookie },
