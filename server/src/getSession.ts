@@ -1,8 +1,8 @@
 import puppeteer from "puppeteer-core";
 import getEnv from "./util/getEnv";
 import { waitForNavigation, waitForSelector } from "./util/puppeteer-utils";
+import error from "./util/error";
 
-const error = (err: Error) => console.error(err);
 const message = (msg: string) => () => console.log(msg);
 
 let browser: puppeteer.Browser;
