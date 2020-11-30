@@ -85,32 +85,19 @@ app.get("/timetable", async (req, res) => {
     const year = Number(req.query.year) || dayjs().year();
     const date = dayjs().day(1).year(year).week(week);
 
-    const get = async (i = 0, refresh = false): Promise<any> => {
-        if (refresh) jsession = await refreshCookie();
+    const dateString = date.format("DD/MM/YYYY");
+    const cookie = getCookie();
 
-        const dateString = date.format("DD/MM/YYYY");
-        const cookie = getCookie();
-        const response = await fetch(`${url}?forWeek=${dateString}`, {
-            headers: { cookie },
-        })
-            .then(json)
-            .catch(nullify);
-
-        if (response !== null) {
-            return response;
-        } else if (refresh === false) {
-            return await get(++i, i > 4);
-        } else {
-            throw Error("Server error");
-        }
-    };
-
-    const timeTable = await get();
+    const timeTable = await fetch(`${url}?forWeek=${dateString}`, {
+        headers: { cookie },
+    })
+        .then(json)
+        .catch(nullify);
 
     if (timeTable != null) {
         res.json(timeTable);
     } else {
-        res.status(500);
+        res.status(503);
         res.send("Server error");
     }
 });
