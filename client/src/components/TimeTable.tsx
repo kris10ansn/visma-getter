@@ -20,7 +20,7 @@ const get = async (date: dayjs.Dayjs) => {
         return await response.json();
     };
 
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 6; i++) {
         const json = await doFetch().catch((x) => null);
 
         if (json !== null) {
