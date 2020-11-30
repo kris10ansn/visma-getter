@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
+import { pos, style } from "src/util/pos";
 import { Unit, useLiveDate } from "src/util/useLiveDate";
 
 const num = (date: dayjs.Dayjs) => {
@@ -27,7 +28,7 @@ const NowLine: React.FC = () => {
                 height: "3px",
                 background: "red",
                 position: "absolute",
-                top: `calc(${(time - 8) / 7.5} * var(--height))`,
+                top: style(pos(time)),
             }}
         ></div>
     );
