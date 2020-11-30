@@ -3,8 +3,8 @@ import { ITimeTableItem } from "src/util/TimeTableInfo";
 import "src/components/TimeTableItem.scss";
 
 interface Props {
-    top: number;
-    height: number;
+    top: string;
+    height: string;
     item: ITimeTableItem;
 }
 
@@ -25,8 +25,8 @@ const norwegian = (type: string) => {
 
 const TimeTableItem: React.FC<Props> = ({ item, top, height }) => {
     const styles: React.CSSProperties = {
-        top: `calc(${top} * var(--height))`,
-        height: `calc(${height} * var(--height))`,
+        top,
+        height,
         borderColor: `#ccc #ccc #ccc #${item.colour}`,
     };
     return (

@@ -5,11 +5,11 @@ import { max, min } from "src/util/math";
 import TimeTableItem from "./TimeTableItem";
 import { intersects } from "src/util/intersects";
 import "./TimeTableCell.scss";
+import { pos, style } from "src/util/pos";
 
 interface Props {
     items: ITimeTableItem[];
 }
-const calcTop = (n: number) => (n - 8) / 7.5;
 
 const group = (_items: ITimeTableItem[]) => {
     const items = _items.slice();
@@ -44,15 +44,12 @@ const TimeTableCell: React.FC<Props> = ({ items }) => {
     const startTime = min(items.map((a) => num(a.startTime)));
     const endTime = max(items.map((a) => num(a.endTime)));
 
-    const top = calcTop(startTime);
-    const bottom = calcTop(endTime);
-
     const grouped = group(items);
 
     const positioning: React.CSSProperties = {
         position: "absolute",
-        top: `calc(${top} * var(--height))`,
-        height: `calc(${bottom - top} * var(--height))`,
+        top: style(pos(startTime)),
+        height: style(pos(endTime - startTime)),
     };
 
     return (
@@ -61,15 +58,18 @@ const TimeTableCell: React.FC<Props> = ({ items }) => {
                 return (
                     <div className="group" key={i}>
                         {group.map((item, j) => {
-                            const relTop = calcTop(num(item.startTime)) - top;
-                            const height =
-                                calcTop(num(item.endTime)) -
-                                calcTop(num(item.startTime));
+                            const top = style(
+                                pos(num(item.startTime)) - pos(startTime)
+                            );
+                            const height = style(
+                                pos(num(item.endTime)) -
+                                    pos(num(item.startTime))
+                            );
 
                             return (
                                 <TimeTableItem
                                     item={item}
-                                    top={relTop}
+                                    top={top}
                                     height={height}
                                     key={j}
                                 />
