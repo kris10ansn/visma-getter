@@ -18,7 +18,7 @@ const NowLine: React.FC = () => {
 
     useEffect(() => {
         setTime(constrain(num(now)));
-    }, [now]);
+    }, [now, setTime]);
 
     return (
         <div
