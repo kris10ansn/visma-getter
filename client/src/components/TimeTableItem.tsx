@@ -25,8 +25,8 @@ const norwegian = (type: string) => {
 
 const TimeTableItem: React.FC<Props> = ({ item, top, height }) => {
     const styles: React.CSSProperties = {
-        top: `${top}px`,
-        height: `${height}px`,
+        top: `calc(${top} * var(--height))`,
+        height: `calc(${height} * var(--height))`,
         borderColor: `#ccc #ccc #ccc #${item.colour}`,
     };
     return (

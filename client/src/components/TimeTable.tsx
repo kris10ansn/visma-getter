@@ -8,10 +8,6 @@ import { SERVER } from "../config.json";
 
 const arr = (n: number) => Array(n).fill(null);
 
-interface Props {
-    style?: React.CSSProperties;
-}
-
 const get = async (date: dayjs.Dayjs) => {
     const doFetch = async () => {
         const response = await fetch(
@@ -31,7 +27,7 @@ const get = async (date: dayjs.Dayjs) => {
     return null;
 };
 
-const TimeTable: React.FC<Props> = ({ style }) => {
+const TimeTable: React.FC = () => {
     const url = new URL(window.location.href);
     const week = Number(url.searchParams.get("week")) || dayjs().week();
     const year = Number(url.searchParams.get("year")) || dayjs().year();
@@ -51,14 +47,14 @@ const TimeTable: React.FC<Props> = ({ style }) => {
     const days = sort(timetable, date);
 
     return (
-        <div className="TimeTable" style={style}>
+        <div className="TimeTable">
             <div className="hours">
                 {arr(8).map((_, i) => (
                     <div
                         key={i}
                         className="hour"
                         style={{
-                            top: `${(1000 / 8) * i}px`,
+                            top: `calc((var(--height) / 7.5) * ${i})`,
                         }}
                     >
                         {date.hour(i + 8).format("HH:00")}

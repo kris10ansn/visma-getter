@@ -9,7 +9,7 @@ import "./TimeTableCell.scss";
 interface Props {
     items: ITimeTableItem[];
 }
-const calcTop = (n: number) => ((n - 8) / 8) * 1000;
+const calcTop = (n: number) => (n - 8) / 7.5;
 
 const group = (_items: ITimeTableItem[]) => {
     const items = _items.slice();
@@ -51,8 +51,8 @@ const TimeTableCell: React.FC<Props> = ({ items }) => {
 
     const positioning: React.CSSProperties = {
         position: "absolute",
-        top: `${top}px`,
-        height: `${bottom - top}px`,
+        top: `calc(${top} * var(--height))`,
+        height: `calc(${bottom - top} * var(--height))`,
     };
 
     return (
@@ -63,9 +63,8 @@ const TimeTableCell: React.FC<Props> = ({ items }) => {
                         {group.map((item, j) => {
                             const relTop = calcTop(num(item.startTime)) - top;
                             const height =
-                                ((num(item.endTime) - 8) / 8 -
-                                    (num(item.startTime) - 8) / 8) *
-                                1000;
+                                calcTop(num(item.endTime)) -
+                                calcTop(num(item.startTime));
 
                             return (
                                 <TimeTableItem

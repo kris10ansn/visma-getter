@@ -10,7 +10,7 @@ const num = (date: dayjs.Dayjs) => {
     );
 };
 
-const constrain = (n: number) => Math.max(8, Math.min(15.5, n));
+const constrain = (n: number) => Math.max(8, Math.min(15.475, n));
 
 const NowLine: React.FC = () => {
     const now = useLiveDate(Unit.Second);
@@ -27,7 +27,7 @@ const NowLine: React.FC = () => {
                 height: "3px",
                 background: "red",
                 position: "absolute",
-                top: `${((time - 8) / 8) * 1000}px`,
+                top: `calc(${(time - 8) / 7.5} * var(--height))`,
             }}
         ></div>
     );
