@@ -55,7 +55,7 @@ const TimeTable: React.FC = () => {
                         key={i}
                         className="hour"
                         style={{
-                            top: style(pos(i)),
+                            top: style(pos(8 + i)),
                         }}
                     >
                         {date.hour(i + 8).format("HH:00")}
