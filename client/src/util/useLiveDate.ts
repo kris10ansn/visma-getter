@@ -37,7 +37,7 @@ export const useLiveDate = (unit: Unit) => {
 
         const next = dayjs(new Date(...values));
         const delay = next.valueOf() - date.valueOf();
-        const timeout = setTimeout(setDate, delay, next);
+        const timeout = setTimeout(() => setDate(dayjs()), delay);
         return () => clearTimeout(timeout);
     }, [unit, date, setDate]);
 
