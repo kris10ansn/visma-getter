@@ -22,10 +22,21 @@
     }
     .info {
         margin: 0.3em 0;
+        margin-bottom: 5px;
         small {
             font-size: 1em;
             display: initial;
             color: #39444b;
+
+            $m: 3px;
+            svg {
+                margin: 0 $m;
+                transform: translateY(14.5%);
+            }
+
+            &:first-child {
+                margin: -$m;
+            }
         }
     }
 }
