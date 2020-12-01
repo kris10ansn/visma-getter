@@ -26,7 +26,6 @@ export const waitForNavigation = (
                 resolve();
             });
         } catch (e) {
-            console.error(e);
-            reject();
+            reject(e);
         }
     });
