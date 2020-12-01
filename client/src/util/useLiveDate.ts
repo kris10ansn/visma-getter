@@ -12,7 +12,7 @@ export enum Unit {
     MilliSecond = 6,
 }
 
-export const useLiveDate = (unit: Unit) => {
+export const useLiveDate = (unit: Unit): dayjs.Dayjs => {
     const initial = useMemo(() => dayjs(), []);
     const [date, setDate] = useState<dayjs.Dayjs>(initial);
 
