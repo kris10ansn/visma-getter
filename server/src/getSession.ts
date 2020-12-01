@@ -7,7 +7,7 @@ const message = (msg: string) => () => console.log(msg);
 
 let browser: puppeteer.Browser;
 
-const getSession = async () => {
+const getSession = async (): Promise<puppeteer.Cookie | null> => {
     console.group("getSession");
     const debug = getEnv("debug") === "true";
 
@@ -65,7 +65,7 @@ const getSession = async () => {
     console.log(`JSESSION: ${jsession?.value}`);
     console.groupEnd();
 
-    return jsession;
+    return jsession || null;
 };
 
 let closing = false;
