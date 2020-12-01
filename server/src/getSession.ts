@@ -37,19 +37,24 @@ const getSession = async () => {
     console.log(`Currently at: ${page.url()}`);
 
     if (url.indexOf("Login.jsp") !== -1) {
-        await page.click("#login-with-feide-button");
+        try {
+            await page.click("#login-with-feide-button");
 
-        await waitForSelector(page, "#username").catch(error);
-        await waitForSelector(page, "#password").catch(error);
-        console.log("Logging in...");
-        await page.type("#username", getEnv("username")).catch(error);
-        await page.type("#password", getEnv("password")).catch(error);
-        await page.click("#main > div.main > form > button");
+            await waitForSelector(page, "#username");
+            await waitForSelector(page, "#password");
+            console.log("Logging in...");
+            await page.type("#username", getEnv("username"));
+            await page.type("#password", getEnv("password"));
+            await page.click("#main > div.main > form > button");
 
-        await waitForNavigation(page, {
-            waitUntil: "networkidle0",
-            timeout: 10000,
-        }).catch(message("Wait for networkidle0 timed out, continuing..."));
+            await waitForNavigation(page, {
+                waitUntil: "networkidle0",
+                timeout: 10000,
+            }).catch(message("Wait for networkidle0 timed out, continuing..."));
+        } catch (error) {
+            console.log(error);
+            return null;
+        }
     }
 
     console.log("Getting cookies...");
