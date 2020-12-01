@@ -21,6 +21,8 @@ const norwegian = (type: string) => {
             return "Avtale";
         case "ACTIVITY":
             return "Aktivitet";
+        case "SUBSTITUTION":
+            return "Vikartime";
         default:
             return type;
     }
