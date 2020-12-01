@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import React from "react";
 import { ITimeTableItem } from "src/util/TimeTableInfo";
+import { Unit, useLiveDate } from "src/util/useLiveDate";
 import { intersects } from "../util/intersects";
 import NowLine from "./NowLine";
 import TimeTableCell from "./TimeTableCell";
@@ -53,7 +54,7 @@ const style: React.CSSProperties = {
 const Day: React.FC<Props> = ({ day, date, index }) => {
     const F = "DD/MM/YYYY";
     const cells = group(day);
-    const now = dayjs();
+    const now = useLiveDate(Unit.Day);
 
     return (
         <div className="Day" style={style}>
