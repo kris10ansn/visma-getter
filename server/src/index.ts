@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import weekOfYear from "dayjs/plugin/weekOfYear";
 import getSession from "./getSession";
 import cors from "cors";
-import { Cookie } from "puppeteer-core";
+import puppeteer from "puppeteer-core";
 import nullify from "./util/nullify";
 import json from "./util/json";
 import path from "path";
@@ -23,11 +23,11 @@ app.use(express.json());
 
 app.use(express.static(path.join(__dirname, "..", "..", "client", "build")));
 
-let jsession: Cookie | undefined;
+let jsession: puppeteer.Cookie | undefined;
 const getCookie = () => `JSESSIONID=${jsession?.value}`;
 
 let refreshing = false;
-const refreshCookie = async (): Promise<Cookie> => {
+const refreshCookie = async (): Promise<puppeteer.Cookie> => {
     refreshing = true;
 
     const session = await getSession().catch(error);
