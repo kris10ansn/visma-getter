@@ -32,8 +32,8 @@ const refreshCookie = async (): Promise<puppeteer.Cookie> => {
 
     const session = await getSession().catch(error);
 
+    refreshing = false;
     if (session) {
-        refreshing = false;
         return session;
     } else {
         return await refreshCookie();
@@ -66,6 +66,8 @@ const cookieCheck = async () => {
     if (!refreshing) {
         console.log("refresh");
         await refreshCookie().catch(error);
+    } else {
+        console.log("already refreshing...");
     }
     console.groupEnd();
 };
