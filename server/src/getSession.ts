@@ -39,6 +39,14 @@ const getSession = async (): Promise<puppeteer.Cookie | null> => {
     if (url.indexOf("Login.jsp") !== -1) {
         try {
             await page.click("#login-with-feide-button");
+            await waitForNavigation(page, {
+                waitUntil: "networkidle0",
+                timeout: 10000,
+            }).catch(
+                message("Wait for login page load timed out, continuing...")
+            );
+
+            console.log(`Logging in at ${page.url()}`);
 
             await waitForSelector(page, "#username");
             await waitForSelector(page, "#password");
