@@ -41,7 +41,7 @@ const getSession = async (): Promise<puppeteer.Cookie | null> => {
         await waitForNavigation(page, { timeout: 2000 }).catch(nullify);
 
         if (page.url().indexOf("idp.feide.no") !== -1) {
-            console.log(`Logging in at ${page.url()}`);
+            console.log(`Logging in at ${page.url().slice(0, 99)}`);
 
             await waitForSelector(page, "#username").catch(error);
             await waitForSelector(page, "#password").catch(error);
