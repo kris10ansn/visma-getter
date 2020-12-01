@@ -33,7 +33,10 @@ const getSession = async () => {
 
     await waitForSelector(page, "#login-with-feide-button").catch(error);
 
-    if (page.url().indexOf("Login.jsp") !== -1) {
+    const url = page.url();
+    console.log(`Currently at: ${page.url()}`);
+
+    if (url.indexOf("Login.jsp") !== -1) {
         await page.click("#login-with-feide-button");
 
         await waitForSelector(page, "#username").catch(error);
