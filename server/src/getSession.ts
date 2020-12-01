@@ -53,6 +53,7 @@ const getSession = async (): Promise<puppeteer.Cookie | null> => {
             }).catch(message("Wait for networkidle0 timed out, continuing..."));
         } catch (error) {
             console.log(error);
+            console.groupEnd();
             return null;
         }
     }
