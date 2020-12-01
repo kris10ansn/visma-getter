@@ -12,7 +12,7 @@ interface Props {
 }
 
 const norwegian = (type: string) => {
-    switch (type) {
+    switch (type.toUpperCase()) {
         case "LESSON":
             return "Undervisningstime";
         case "ASSESSMENT":
