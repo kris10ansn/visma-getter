@@ -33,12 +33,12 @@ const getSession = async (): Promise<puppeteer.Cookie | null> => {
 
     await waitForSelector(page, "#login-with-feide-button").catch(error);
 
-    const url = page.url();
     console.log(`Currently at: ${page.url()}`);
 
-    if (url.indexOf("Login.jsp") !== -1) {
-        try {
-            await page.click("#login-with-feide-button");
+    if (page.url().indexOf("Login.jsp") !== -1) {
+        await page.click("#login-with-feide-button");
+
+        if (page.url().indexOf("idp.feide.no") !== -1) {
             await waitForNavigation(page, {
                 waitUntil: "networkidle0",
                 timeout: 10000,
@@ -59,10 +59,8 @@ const getSession = async (): Promise<puppeteer.Cookie | null> => {
                 waitUntil: "networkidle0",
                 timeout: 10000,
             }).catch(message("Wait for networkidle0 timed out, continuing..."));
-        } catch (error) {
-            console.log(`Error caught by try/catch: ${error}`);
-            console.groupEnd();
-            return null;
+        } else {
+            console.log(`Probably already logged in: ${page.url()}`);
         }
     }
 
