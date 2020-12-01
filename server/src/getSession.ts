@@ -49,6 +49,7 @@ const getSession = async () => {
         }).catch(message("Wait for networkidle0 timed out, continuing..."));
     }
 
+    console.log("Getting cookies...");
     const cookies = await page.cookies();
 
     const jsession = cookies.find((cookie) => cookie.name === "JSESSIONID");
