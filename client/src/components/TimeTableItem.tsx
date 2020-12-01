@@ -22,7 +22,7 @@ const norwegian = (type: string) => {
         case "ACTIVITY":
             return "Aktivitet";
         default:
-            return null;
+            return type;
     }
 };
 
