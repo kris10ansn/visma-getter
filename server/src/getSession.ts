@@ -36,8 +36,8 @@ const getSession = async () => {
     if (page.url().indexOf("Login.jsp") !== -1) {
         await page.click("#login-with-feide-button");
 
-        await waitForSelector(page, "#username");
-        await waitForSelector(page, "#password");
+        await waitForSelector(page, "#username").catch(error);
+        await waitForSelector(page, "#password").catch(error);
         console.log("Logging in...");
         await page.type("#username", getEnv("username")).catch(error);
         await page.type("#password", getEnv("password")).catch(error);
