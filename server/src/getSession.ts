@@ -2,6 +2,7 @@ import puppeteer from "puppeteer-core";
 import getEnv from "./util/getEnv";
 import { waitForNavigation, waitForSelector } from "./util/puppeteer-utils";
 import error from "./util/error";
+import nullify from "./util/nullify";
 
 const message = (msg: string) => () => console.log(msg);
 
@@ -37,19 +38,13 @@ const getSession = async (): Promise<puppeteer.Cookie | null> => {
 
     if (page.url().indexOf("Login.jsp") !== -1) {
         await page.click("#login-with-feide-button");
+        await waitForNavigation(page, { timeout: 2000 }).catch(nullify);
 
         if (page.url().indexOf("idp.feide.no") !== -1) {
-            await waitForNavigation(page, {
-                waitUntil: "networkidle0",
-                timeout: 10000,
-            }).catch(
-                message("Wait for login page load timed out, continuing...")
-            );
-
             console.log(`Logging in at ${page.url()}`);
 
-            await waitForSelector(page, "#username");
-            await waitForSelector(page, "#password");
+            await waitForSelector(page, "#username").catch(error);
+            await waitForSelector(page, "#password").catch(error);
             console.log("Logging in...");
             await page.type("#username", getEnv("username"));
             await page.type("#password", getEnv("password"));
