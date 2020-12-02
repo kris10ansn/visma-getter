@@ -15,11 +15,8 @@ const num = (date: dayjs.Dayjs) => {
 const constrain = (n: number, min: number, max: number) =>
     Math.max(min, Math.min(max, n));
 
-(window as any)._offset = -21 + 8 - 0.5;
-
 const NowLine: React.FC = () => {
-    const getTime = (now: dayjs.Dayjs) =>
-        constrain(num(now) + (window as any)._offset, 8, 15.475);
+    const getTime = (now: dayjs.Dayjs) => constrain(num(now), 8, 15.475);
     const now = useLiveDate(Unit.Second);
     const position = pos(getTime(now));
     const timeSpanCopy = useRef() as RefObject<HTMLDivElement>;
@@ -69,7 +66,7 @@ const NowLine: React.FC = () => {
                     00:00:00
                 </span>
                 <span className="time" style={styles.span}>
-                    {now.format("15:mm:ss")}
+                    {now.format("HH:mm:ss")}
                 </span>
             </div>
         </div>
