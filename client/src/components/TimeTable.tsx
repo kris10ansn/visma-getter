@@ -41,6 +41,17 @@ const TimeTable: React.FC = () => {
         get(date).then((json) => setTimetable(json));
     }, [date]);
 
+    useEffect(() => {
+        const self: HTMLDivElement | null = document.querySelector(
+            "div.TimeTable"
+        );
+
+        if (self) {
+            const height = self.parentElement!.clientHeight;
+            self.style.setProperty("--height", `${height}px`);
+        }
+    }, [timetable]);
+
     if (!timetable) {
         return <div>Loading...</div>;
     }
