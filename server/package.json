@@ -6,6 +6,7 @@
     "scripts": {
         "watch": "tsc --watch",
         "dev": "nodemon --watch dist dist/index.js",
+        "dev:noreload": "nodemon --ignore dist dist/index.js",
         "start": "node dist/index.js",
         "build": "tsc"
     },
