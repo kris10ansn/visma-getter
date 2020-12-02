@@ -28,7 +28,11 @@ const NowLine: React.FC = () => {
             style={{
                 top: style(pos(time)),
             }}
-        ></div>
+        >
+            <div className="time-container">
+                <span className="time">{now.format("HH:ss")}</span>
+            </div>
+        </div>
     );
 };
 

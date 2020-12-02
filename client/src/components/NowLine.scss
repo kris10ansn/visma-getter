@@ -3,4 +3,17 @@
     height: 3px;
     background: red;
     position: absolute;
+
+    div.time-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+
+        span.time {
+            background-color: #eee;
+            position: absolute;
+            right: 0;
+            transform: translateY(-40%);
+        }
+    }
 }
