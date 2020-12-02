@@ -10,6 +10,7 @@ import json from "./util/json";
 import path from "path";
 import getEnv from "./util/getEnv";
 import { error } from "./util/error";
+import fs from "fs";
 
 dayjs.extend(weekOfYear);
 
@@ -46,6 +47,14 @@ refreshCookie().then((session) => {
 });
 
 const cookieCheck = async () => {
+    const manualRefresh = path.join(__dirname, "..", "refresh");
+    if (fs.existsSync(manualRefresh)) {
+        console.log("Manual refresh");
+        fs.unlinkSync(manualRefresh);
+        await refreshCookie().catch(error);
+        return;
+    }
+
     console.group("cookie check");
 
     for (let i = 0; i < 6; i++) {
