@@ -30,7 +30,7 @@ const NowLine: React.FC = () => {
             }}
         >
             <div className="time-container">
-                <span className="time">{now.format("HH:ss")}</span>
+                <span className="time">{now.format("HH:mm:ss")}</span>
             </div>
         </div>
     );
