@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
 import { pos, style } from "src/util/pos";
 import { Unit, useLiveDate } from "src/util/useLiveDate";
+import "./NowLine.scss";
 
 const num = (date: dayjs.Dayjs) => {
     return (
