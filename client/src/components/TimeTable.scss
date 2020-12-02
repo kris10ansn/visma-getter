@@ -1,14 +1,18 @@
 .TimeTable {
-    display: flex;
-    height: var(--height);
+    height: 100%;
     width: 100%;
+    &__inner {
+        display: flex;
+        height: var(--height);
+        width: 100%;
 
-    .hours {
-        position: relative;
-        flex-basis: 60px;
+        .hours {
+            position: relative;
+            flex-basis: 60px;
 
-        .hour {
-            position: absolute;
+            .hour {
+                position: absolute;
+            }
         }
     }
 }

@@ -4,10 +4,12 @@
     "private": true,
     "dependencies": {
         "@react-icons/all-files": "^4.1.0",
+        "@types/react-resize-detector": "^5.0.0",
         "dayjs": "^1.9.6",
         "node-sass": "4.14.1",
         "react": "^17.0.1",
         "react-dom": "^17.0.1",
+        "react-resize-detector": "^5.2.0",
         "react-scripts": "4.0.0",
         "web-vitals": "^0.2.4"
     },
