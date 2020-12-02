@@ -9,7 +9,7 @@ import nullify from "./util/nullify";
 import json from "./util/json";
 import path from "path";
 import getEnv from "./util/getEnv";
-import error from "./util/error";
+import { error } from "./util/error";
 
 dayjs.extend(weekOfYear);
 
