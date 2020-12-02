@@ -4,11 +4,8 @@
     display: flex;
     flex-direction: column;
 
-    div.interact {
-        flex: 0 0 auto;
-    }
-
     div.timeatable-container {
         flex: 1 1 auto;
+        height: 100%;
     }
 }
