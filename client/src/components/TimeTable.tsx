@@ -81,7 +81,12 @@ const TimeTable: React.FC<Props> = () => {
                     ))}
                 </div>
                 {days?.map((day, index) => (
-                    <Day day={day} date={date} index={index} key={index} />
+                    <Day
+                        day={day}
+                        date={date.day(index + 1)}
+                        index={index}
+                        key={index}
+                    />
                 ))}
             </div>
         </div>
