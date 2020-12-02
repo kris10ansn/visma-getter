@@ -28,7 +28,7 @@
             display: initial;
             color: #39444b;
 
-            $m: 3px;
+            $m: 1.5px;
             svg {
                 margin: 0 $m;
                 transform: translateY(14.5%);
@@ -36,6 +36,10 @@
 
             &:first-child {
                 margin: -$m;
+            }
+
+            &:nth-child(2) {
+                margin-left: 4px;
             }
         }
     }
