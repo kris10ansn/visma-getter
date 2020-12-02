@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ITimeTableItem } from "src/util/TimeTableInfo";
 import { Unit, useLiveDate } from "src/util/useLiveDate";
 import { intersects } from "../util/intersects";
@@ -56,11 +56,19 @@ const Day: React.FC<Props> = ({ day, date, index }) => {
     const cells = group(day);
     const now = useLiveDate(Unit.Day);
 
+    const [nowLine, setNowLine] = useState(false);
+
+    useEffect(() => {
+        if (now.format(F) === date.format(F)) {
+            setNowLine(true);
+        } else {
+            setNowLine(false);
+        }
+    }, [now, date, setNowLine]);
+
     return (
         <div className="Day" style={style}>
-            {index + 1 === date.day() && date.format(F) === now.format(F) && (
-                <NowLine />
-            )}
+            {nowLine && <NowLine />}
             {cells.map((cellItems, index) => (
                 <TimeTableCell items={cellItems} key={index} />
             ))}
