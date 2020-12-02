@@ -25,10 +25,6 @@ const NowLine: React.FC = () => {
         <div
             className="NowLine"
             style={{
-                width: "100%",
-                height: "3px",
-                background: "red",
-                position: "absolute",
                 top: style(pos(time)),
             }}
         ></div>
