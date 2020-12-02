@@ -69,8 +69,9 @@ const getSession = async (): Promise<puppeteer.Cookie | null> => {
                 throw `not at feide login page [${page.url()}]`;
             }
         } catch (error) {
-            console.log(`Probably already logged in: ${page.url()}`);
-            console.log(`Error: ${error}`);
+            console.log(
+                `Probably already logged in: ${page.url()}, Error: ${error}`
+            );
         }
     }
 
