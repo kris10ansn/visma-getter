@@ -1,7 +1,7 @@
 import puppeteer from "puppeteer-core";
 import getEnv from "./util/getEnv";
 import { waitForNavigation, waitForSelector } from "./util/puppeteer-utils";
-import error from "./util/error";
+import { error, throwError } from "./util/error";
 import nullify from "./util/nullify";
 
 const message = (msg: string) => () => console.log(msg);
@@ -38,24 +38,37 @@ const getSession = async (): Promise<puppeteer.Cookie | null> => {
 
     if (page.url().indexOf("Login.jsp") !== -1) {
         await page.click("#login-with-feide-button");
-        await waitForNavigation(page, { timeout: 2000 }).catch(nullify);
+        await waitForNavigation(page, {
+            waitUntil: "networkidle2",
+            timeout: 5000,
+        }).catch(nullify);
 
-        if (page.url().indexOf("idp.feide.no") !== -1) {
-            console.log(`Logging in at ${page.url().slice(0, 99)}`);
+        try {
+            if (page.url().indexOf("idp.feide.no") !== -1) {
+                console.log(`Logging in at ${page.url().slice(0, 99)}`);
+                console.log(
+                    `Index of idp.feide.no: ${page
+                        .url()
+                        .indexOf("idp.feide.no")}`
+                );
 
-            await waitForSelector(page, "#username").catch(error);
-            await waitForSelector(page, "#password").catch(error);
-            console.log("Logging in...");
-            await page.type("#username", getEnv("username"));
-            await page.type("#password", getEnv("password"));
-            await page.click("#main > div.main > form > button");
+                await waitForSelector(page, "#username").catch(throwError);
+                await waitForSelector(page, "#password").catch(throwError);
+                console.log("Logging in...");
+                await page.type("#username", getEnv("username"));
+                await page.type("#password", getEnv("password"));
+                await page.click("#main > div.main > form > button");
 
-            await waitForNavigation(page, {
-                waitUntil: "networkidle0",
-                timeout: 10000,
-            }).catch(message("Wait for networkidle0 timed out, continuing..."));
-        } else {
+                await waitForNavigation(page, {
+                    waitUntil: "networkidle0",
+                    timeout: 10000,
+                }).catch(
+                    message("Wait for networkidle0 timed out, continuing...")
+                );
+            }
+        } catch (error) {
             console.log(`Probably already logged in: ${page.url()}`);
+            console.log(`Error: ${error}`);
         }
     }
 
