@@ -13,7 +13,7 @@ const arr = (n: number) => Array(n).fill(null);
 const get = async (date: dayjs.Dayjs) => {
     const doFetch = async () => {
         const response = await fetch(
-            `${SERVER}/timetable?week=${date.week()}&year=${date.year()}`
+            `${SERVER}/timetable?week=${date.isoWeek()}&year=${date.year()}`
         );
         return await response.json();
     };
@@ -37,10 +37,10 @@ const TimeTable: React.FC<Props> = () => {
     const self = useRef() as RefObject<HTMLDivElement>;
 
     const url = new URL(window.location.href);
-    const week = Number(url.searchParams.get("week")) || dayjs().week();
+    const week = Number(url.searchParams.get("week")) || dayjs().isoWeek();
     const year = Number(url.searchParams.get("year")) || dayjs().year();
 
-    const [date] = useState<dayjs.Dayjs>(dayjs().year(year).week(week));
+    const [date] = useState<dayjs.Dayjs>(dayjs().year(year).isoWeek(week));
     const [timetable, setTimetable] = useState<ITimeTableInfo>();
     const [days, setDays] = useState<ITimeTableItem[][]>();
 

@@ -1,7 +1,7 @@
 import express from "express";
 import fetch from "node-fetch";
 import dayjs from "dayjs";
-import weekOfYear from "dayjs/plugin/weekOfYear";
+import isoWeek from "dayjs/plugin/isoWeek";
 import getSession from "./getSession";
 import cors from "cors";
 import puppeteer from "puppeteer-core";
@@ -12,7 +12,7 @@ import getEnv from "./util/getEnv";
 import { error } from "./util/error";
 import fs from "fs";
 
-dayjs.extend(weekOfYear);
+dayjs.extend(isoWeek);
 
 const PORT = getEnv("PORT");
 const url =
@@ -96,9 +96,9 @@ app.get("/timetable", async (req, res) => {
         return;
     }
 
-    const week = Number(req.query.week) || dayjs().week();
+    const week = Number(req.query.week) || dayjs().isoWeek();
     const year = Number(req.query.year) || dayjs().year();
-    const date = dayjs().day(1).year(year).week(week);
+    const date = dayjs().year(year).isoWeek(week).day(1);
 
     const dateString = date.format("DD/MM/YYYY");
     const cookie = getCookie();

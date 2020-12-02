@@ -5,10 +5,10 @@ import App from "./App";
 
 import dayjs from "dayjs";
 import weekday from "dayjs/plugin/weekday";
-import weekOfYear from "dayjs/plugin/weekOfYear";
+import isoWeek from "dayjs/plugin/isoWeek";
 
 dayjs.extend(weekday);
-dayjs.extend(weekOfYear);
+dayjs.extend(isoWeek);
 
 ReactDOM.render(
     <React.StrictMode>
