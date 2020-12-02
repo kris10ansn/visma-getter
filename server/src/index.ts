@@ -57,13 +57,16 @@ const cookieCheck = async () => {
 
     console.group("cookie check");
 
-    for (let i = 0; i < 6; i++) {
+    const responses = [];
+    for (let i = 0; i < 10; i++) {
         const cookie = getCookie();
         const res = await fetch(`${url}?forWeek=1/10/2020`, {
             headers: { cookie },
         })
             .then(json)
             .catch(nullify);
+
+        responses.push(res);
 
         if (res !== null) {
             console.log("valid jsession");
@@ -73,7 +76,7 @@ const cookieCheck = async () => {
     }
 
     if (!refreshing) {
-        console.log("refresh");
+        console.log(`refresh, invalid responses: ${responses}`);
         await refreshCookie().catch(error);
     } else {
         console.log("already refreshing...");
