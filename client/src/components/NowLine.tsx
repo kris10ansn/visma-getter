@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
-import React, { useEffect, useState } from "react";
+import React, { RefObject, useRef } from "react";
+import inViewport from "src/util/inViewport";
 import { pos, style } from "src/util/pos";
 import { Unit, useLiveDate } from "src/util/useLiveDate";
 import "./NowLine.scss";
@@ -12,25 +13,36 @@ const num = (date: dayjs.Dayjs) => {
     );
 };
 
-const constrain = (n: number) => Math.max(8, Math.min(15.475, n));
+const constrain = (n: number, min: number, max: number) =>
+    Math.max(min, Math.min(max, n));
 
 const NowLine: React.FC = () => {
+    const timeElement = useRef() as RefObject<HTMLDivElement>;
+    const getTime = (now: dayjs.Dayjs) => constrain(num(now), 8, 15.475);
     const now = useLiveDate(Unit.Second);
-    const [time, setTime] = useState<number>(constrain(num(now)));
+    const position = pos(getTime(now));
 
-    useEffect(() => {
-        setTime(constrain(num(now)));
-    }, [now, setTime]);
+    const styles = {
+        container: {
+            top: style(position),
+        },
+        span: {
+            transform: "translateY(-40%)",
+        },
+    };
+
+    if (timeElement.current && !inViewport(timeElement.current)) {
+        styles.span["transform"] = "translate(0)";
+        const prop = getTime(now) > 15 ? "bottom" : "top";
+        styles.span[prop] = -1;
+    }
 
     return (
-        <div
-            className="NowLine"
-            style={{
-                top: style(pos(time)),
-            }}
-        >
+        <div className="NowLine" style={styles.container}>
             <div className="time-container">
-                <span className="time">{now.format("HH:mm:ss")}</span>
+                <span className="time" style={styles.span} ref={timeElement}>
+                    {now.format("HH:mm:ss")}
+                </span>
             </div>
         </div>
     );
