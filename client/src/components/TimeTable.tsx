@@ -33,7 +33,7 @@ interface Props {
     height: number;
     width: number;
 }
-const TimeTable: React.FC<Props> = ({ width, height }) => {
+const TimeTable: React.FC<Props> = () => {
     const self = useRef() as RefObject<HTMLDivElement>;
 
     const url = new URL(window.location.href);
