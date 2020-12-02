@@ -65,6 +65,8 @@ const getSession = async (): Promise<puppeteer.Cookie | null> => {
                 }).catch(
                     message("Wait for networkidle0 timed out, continuing...")
                 );
+            } else {
+                throw `not at feide login page [${page.url()}]`;
             }
         } catch (error) {
             console.log(`Probably already logged in: ${page.url()}`);
