@@ -23,6 +23,7 @@ const NowLine: React.FC = () => {
 
     return (
         <div
+            className="NowLine"
             style={{
                 width: "100%",
                 height: "3px",
