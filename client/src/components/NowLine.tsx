@@ -17,7 +17,7 @@ const constrain = (n: number, min: number, max: number) =>
 
 const NowLine: React.FC = () => {
     const getTime = (now: dayjs.Dayjs) => constrain(num(now), 8, 15.475);
-    const now = useLiveDate(Unit.Second);
+    const now = useLiveDate(Unit.MilliSecond);
     const position = pos(getTime(now));
     const timeSpanCopy = useRef() as RefObject<HTMLDivElement>;
     const timeContainer = useRef() as RefObject<HTMLDivElement>;
