@@ -10,7 +10,7 @@ import json from "./util/json";
 import path from "path";
 import getEnv from "./util/getEnv";
 import { error } from "./util/error";
-// import fs from "fs";
+import fs from "fs";
 
 dayjs.extend(isoWeek);
 
@@ -27,13 +27,13 @@ app.use(express.static(path.join(__dirname, "..", "..", "client", "build")));
 let jsession: puppeteer.Cookie | undefined;
 const getCookie = () => `JSESSIONID=${jsession?.value}`;
 
-// let refreshing = false;
+let refreshing = false;
 const refreshCookie = async (): Promise<puppeteer.Cookie> => {
-    // refreshing = true;
+    refreshing = true;
 
     const session = await getSession().catch(error);
 
-    // refreshing = false;
+    refreshing = false;
     if (session) {
         return session;
     } else {
@@ -46,44 +46,44 @@ refreshCookie().then((session) => {
     console.log("jsession loaded!");
 });
 
-// const cookieCheck = async () => {
-//     const manualRefresh = path.join(__dirname, "..", "refresh");
-//     if (fs.existsSync(manualRefresh)) {
-//         console.log("Manual refresh");
-//         fs.unlinkSync(manualRefresh);
-//         await refreshCookie().catch(error);
-//         return;
-//     }
+const cookieCheck = async () => {
+    const manualRefresh = path.join(__dirname, "..", "refresh");
+    if (fs.existsSync(manualRefresh)) {
+        console.log("Manual refresh");
+        fs.unlinkSync(manualRefresh);
+        await refreshCookie().catch(error);
+        return;
+    }
 
-//     console.group("cookie check");
+    console.group("cookie check");
 
-//     const responses = [];
-//     for (let i = 0; i < 10; i++) {
-//         const cookie = getCookie();
-//         const res = await fetch(`${url}?forWeek=1/10/2020`, {
-//             headers: { cookie },
-//         })
-//             .then(json)
-//             .catch(nullify);
+    const responses = [];
+    for (let i = 0; i < 10; i++) {
+        const cookie = getCookie();
+        const res = await fetch(`${url}?forWeek=1/10/2020`, {
+            headers: { cookie },
+        })
+            .then(json)
+            .catch(nullify);
 
-//         responses.push(res);
+        responses.push(res);
 
-//         if (res !== null) {
-//             console.log("valid jsession");
-//             console.groupEnd();
-//             return;
-//         }
-//     }
+        if (res !== null) {
+            console.log("valid jsession");
+            console.groupEnd();
+            return;
+        }
+    }
 
-//     if (!refreshing) {
-//         console.log(`refresh, invalid responses: ${responses}`);
-//         await refreshCookie().catch(error);
-//     } else {
-//         console.log("already refreshing...");
-//     }
-//     console.groupEnd();
-// };
-// setInterval(cookieCheck, 10 * 1000 * 60);
+    if (!refreshing) {
+        console.log(`refresh, invalid responses: ${responses}`);
+        await refreshCookie().catch(error);
+    } else {
+        console.log("already refreshing...");
+    }
+    console.groupEnd();
+};
+setInterval(cookieCheck, 15 * 1000 * 60);
 
 app.get("/logs", (_req, res) => {
     res.sendFile(path.join(__dirname, "..", "output.log"));
