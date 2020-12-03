@@ -5,7 +5,7 @@ import sort from "../util/sort";
 import Day from "./Day";
 import "./TimeTable.scss";
 import { pos, style } from "src/util/pos";
-import { Unit, useLiveDate } from "src/util/useLiveDate";
+import useInterval from "@use-it/interval";
 
 const arr = (n: number) => Array(n).fill(null);
 
@@ -41,13 +41,12 @@ const TimeTable: React.FC = () => {
     const [date] = useState<dayjs.Dayjs>(dayjs().year(year).isoWeek(week));
     const [timetable, setTimetable] = useState<ITimeTableInfo>();
     const [days, setDays] = useState<ITimeTableItem[][]>();
-    const now = useLiveDate(Unit.MilliSecond);
 
-    useEffect(() => {
-        if (current) {
-            setHeight(current.parentElement?.clientHeight);
+    useInterval(() => {
+        if (self.current) {
+            setHeight(self.current.parentElement?.clientHeight);
         }
-    }, [current, now, timetable, setHeight]);
+    }, 100);
 
     useEffect(() => {
         if (height && current) {
