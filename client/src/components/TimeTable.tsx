@@ -6,7 +6,6 @@ import Day from "./Day";
 import "./TimeTable.scss";
 import { SERVER } from "../config.json";
 import { pos, style } from "src/util/pos";
-import { withResizeDetector } from "react-resize-detector";
 
 const arr = (n: number) => Array(n).fill(null);
 
@@ -29,11 +28,7 @@ const get = async (date: dayjs.Dayjs) => {
     return null;
 };
 
-interface Props {
-    height: number;
-    width: number;
-}
-const TimeTable: React.FC<Props> = () => {
+const TimeTable: React.FC = () => {
     const self = useRef() as RefObject<HTMLDivElement>;
 
     const url = new URL(window.location.href);
@@ -93,4 +88,4 @@ const TimeTable: React.FC<Props> = () => {
     );
 };
 
-export default withResizeDetector(TimeTable, { handleHeight: true });
+export default TimeTable;
