@@ -41,10 +41,18 @@ const TimeTable: React.FC = () => {
     const [date] = useState<dayjs.Dayjs>(dayjs().year(year).isoWeek(week));
     const [timetable, setTimetable] = useState<ITimeTableInfo>();
     const [days, setDays] = useState<ITimeTableItem[][]>();
+    const [mobile, setMobile] = useState<boolean>();
 
     useInterval(() => {
         if (self.current) {
-            setHeight(self.current.parentElement?.clientHeight);
+            const parent = self.current.parentElement!;
+            setHeight(parent.clientHeight);
+
+            if (self.current.clientWidth < 750) {
+                setMobile(true);
+            } else {
+                setMobile(false);
+            }
         }
     }, 100);
 
@@ -72,7 +80,7 @@ const TimeTable: React.FC = () => {
     return (
         <div className="TimeTable">
             <div className="TimeTable__inner" ref={self}>
-                <div className="hours">
+                <div className={`hours ${mobile ? "hidden" : ""}`}>
                     {arr(8).map((_, i) => (
                         <div
                             key={i}
@@ -85,14 +93,16 @@ const TimeTable: React.FC = () => {
                         </div>
                     ))}
                 </div>
-                {days?.map((day, index) => (
-                    <Day
-                        day={day}
-                        date={date.day(index + 1)}
-                        index={index}
-                        key={index}
-                    />
-                ))}
+                {days?.map((day, index) => {
+                    return (
+                        <Day
+                            day={day}
+                            date={date.day(index + 1)}
+                            key={index}
+                            hidden={(mobile && index + 1 !== date.day())!}
+                        />
+                    );
+                })}
             </div>
         </div>
     );

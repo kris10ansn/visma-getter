@@ -42,10 +42,10 @@ const group = (_items: ITimeTableItem[]) => {
 interface Props {
     day: ITimeTableItem[];
     date: dayjs.Dayjs;
-    index: number;
+    hidden: boolean;
 }
 
-const Day: React.FC<Props> = ({ day, date, index }) => {
+const Day: React.FC<Props> = ({ day, date, hidden }) => {
     const F = "DD/MM/YYYY";
     const cells = group(day);
     const now = useLiveDate(Unit.Day);
@@ -61,7 +61,7 @@ const Day: React.FC<Props> = ({ day, date, index }) => {
     }, [now, date, setNowLine]);
 
     return (
-        <div className="Day">
+        <div className={`Day ${hidden ? "hidden" : ""}`}>
             {nowLine && <NowLine />}
             {cells.map((cellItems, index) => (
                 <TimeTableCell items={cellItems} key={index} />
