@@ -4,7 +4,6 @@ import { ITimeTableInfo, ITimeTableItem } from "../util/TimeTableInfo";
 import sort from "../util/sort";
 import Day from "./Day";
 import "./TimeTable.scss";
-import { SERVER } from "../config.json";
 import { pos, style } from "src/util/pos";
 import { Unit, useLiveDate } from "src/util/useLiveDate";
 
@@ -12,6 +11,7 @@ const arr = (n: number) => Array(n).fill(null);
 
 const get = async (date: dayjs.Dayjs) => {
     const doFetch = async () => {
+        const SERVER = process.env.REACT_APP_SERVER;
         const response = await fetch(
             `${SERVER}/timetable?week=${date.isoWeek()}&year=${date.year()}`
         );
