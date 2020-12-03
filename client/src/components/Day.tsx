@@ -5,6 +5,7 @@ import { Unit, useLiveDate } from "src/util/useLiveDate";
 import { intersects } from "../util/intersects";
 import NowLine from "./NowLine";
 import TimeTableCell from "./TimeTableCell";
+import "./Day.scss";
 
 const group = (_items: ITimeTableItem[]) => {
     const items = _items.slice();
@@ -44,13 +45,6 @@ interface Props {
     index: number;
 }
 
-const style: React.CSSProperties = {
-    flex: "1 1 0",
-    display: "flex",
-    flexDirection: "column",
-    position: "relative",
-};
-
 const Day: React.FC<Props> = ({ day, date, index }) => {
     const F = "DD/MM/YYYY";
     const cells = group(day);
@@ -67,7 +61,7 @@ const Day: React.FC<Props> = ({ day, date, index }) => {
     }, [now, date, setNowLine]);
 
     return (
-        <div className="Day" style={style}>
+        <div className="Day">
             {nowLine && <NowLine />}
             {cells.map((cellItems, index) => (
                 <TimeTableCell items={cellItems} key={index} />
