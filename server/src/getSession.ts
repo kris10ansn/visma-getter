@@ -22,11 +22,6 @@ const getSession = async (): Promise<puppeteer.Cookie | null> => {
 
     const [page] = await browser.pages();
 
-    await page.deleteCookie({
-        name: "JSESSIONID",
-        domain: "sandnes-vgs.inschool.visma.no",
-    });
-
     await page.goto("about:blank");
 
     console.log("Loading website...");
