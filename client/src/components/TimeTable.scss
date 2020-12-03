@@ -4,8 +4,9 @@
     overflow: hidden;
 
     &__inner {
+        overflow: hidden;
         display: flex;
-        height: var(--height);
+        height: var(--height, 0px);
         width: 100%;
 
         .hours {
