@@ -6,6 +6,7 @@ import Day from "./Day";
 import "./TimeTable.scss";
 import { SERVER } from "../config.json";
 import { pos, style } from "src/util/pos";
+import { Unit, useLiveDate } from "src/util/useLiveDate";
 
 const arr = (n: number) => Array(n).fill(null);
 
@@ -30,19 +31,29 @@ const get = async (date: dayjs.Dayjs) => {
 
 const TimeTable: React.FC = () => {
     const self = useRef() as RefObject<HTMLDivElement>;
+    const { current } = self;
 
     const url = new URL(window.location.href);
     const week = Number(url.searchParams.get("week")) || dayjs().isoWeek();
     const year = Number(url.searchParams.get("year")) || dayjs().year();
 
+    const [height, setHeight] = useState<number>();
     const [date] = useState<dayjs.Dayjs>(dayjs().year(year).isoWeek(week));
     const [timetable, setTimetable] = useState<ITimeTableInfo>();
     const [days, setDays] = useState<ITimeTableItem[][]>();
+    const now = useLiveDate(Unit.MilliSecond);
 
-    if (self.current) {
-        const height = self.current.parentElement?.clientHeight;
-        self.current.style.setProperty("--height", `${height}px`);
-    }
+    useEffect(() => {
+        if (current) {
+            setHeight(current.parentElement?.clientHeight);
+        }
+    }, [current, now, timetable, setHeight]);
+
+    useEffect(() => {
+        if (height && current) {
+            current.style.setProperty("--height", `${height}px`);
+        }
+    }, [height, current]);
 
     useEffect(() => {
         setTimetable(undefined);
