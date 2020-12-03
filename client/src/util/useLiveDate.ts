@@ -16,6 +16,10 @@ export const useLiveDate = (unit: Unit): dayjs.Dayjs => {
     const initial = useMemo(() => dayjs(), []);
     const [date, setDate] = useState<dayjs.Dayjs>(initial);
 
+    const updateDate = () => {
+        setDate(dayjs());
+    };
+
     useEffect(() => {
         const values = [
             date?.year(),
@@ -35,9 +39,9 @@ export const useLiveDate = (unit: Unit): dayjs.Dayjs => {
             return value;
         }) as FixedArray<number, 7>;
 
-        const next = dayjs(new Date(...values));
+        const next = new Date(...values);
         const delay = next.valueOf() - date.valueOf();
-        const timeout = setTimeout(() => setDate(dayjs()), delay);
+        const timeout = setTimeout(updateDate, delay);
         return () => clearTimeout(timeout);
     }, [unit, date, setDate]);
 
